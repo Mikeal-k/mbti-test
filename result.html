@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>你的MBTI结果</title>
+  <style>
+    body{font-family:Arial;padding:30px;max-width:600px;margin:0 auto;line-height:1.7}
+    .link{margin:20px 0;padding:10px;background:#f5f5f5;word-break:break-all}
+    button{padding:8px 16px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <h2>你的MBTI人格类型</h2>
+  <h1 id="type">-</h1>
+  <p id="desc"></p>
+  <div class="link">你的专属链接：<span id="link"></span></div>
+  <button onclick="copy()">复制链接</button>
+
+  <script>
+    const path = location.pathname
+    const id = path.split('/result/')[1]||''
+    const type = localStorage.getItem('result_'+id)||'未知'
+    document.getElementById('type').innerText = type
+    document.getElementById('desc').innerText = type+' 型人格，冷静理性，有计划。'
+    const url = location.origin + '/result/' + id
+    document.getElementById('link').innerText = url
+
+    function copy() {
+      navigator.clipboard.writeText(url).then(()=>alert('已复制'))
+    }
+  </script>
+</body>
+</html>

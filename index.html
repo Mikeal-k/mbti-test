@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>MBTI人格测试</title>
+  <style>
+    body{font-family:Arial;padding:20px;max-width:600px;margin:0 auto;line-height:1.6}
+    .question{margin:24px 0}
+    button{padding:10px 20px;margin-top:20px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div id="test">
+    <div class="question" id="q0">
+      <p>1. 你更倾向？</p>
+      <label><input type="radio" name="q" value="E"> E 外向</label><br>
+      <label><input type="radio" name="q" value="I"> I 内向</label>
+    </div>
+    <div class="question" id="q1" style="display:none">
+      <p>2. 你更关注？</p>
+      <label><input type="radio" name="q2" value="S"> S 现实</label><br>
+      <label><input type="radio" name="q2" value="N"> N 想象</label>
+    </div>
+    <button onclick="next()">下一题</button>
+    <button onclick="calcResult()" style="display:none" id="submitBtn">查看结果</button>
+  </div>
+
+  <script>
+    let step = 0
+    let answers = {}
+    function next() {
+      let q = document.querySelector(`input[name="q${step}"]:checked`)
+      if (!q) return alert('选一个')
+      answers['q'+step] = q.value
+      step++
+      document.querySelectorAll('.question').forEach((el,i)=>{
+        el.style.display = i==step ? 'block' : 'none'
+      })
+      if(step==1) document.getElementById('submitBtn').style.display='inline-block'
+    }
+
+    function calcResult() {
+      let type = (answers.q0||'I') + (answers.q2||'S') + 'T' + 'J'
+      localStorage.setItem('mbti_'+type, type)
+      let id = Math.random().toString(36).substr(2,16)
+      localStorage.setItem('result_'+id, type)
+      location.href = '/result/' + id
+    }
+  </script>
+</body>
+</html>
